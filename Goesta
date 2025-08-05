@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Mitt ID (Demo)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 30px;
+      width: 320px;
+      text-align: center;
+    }
+    .card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #005AA7;
+    }
+    input {
+      margin-top: 15px;
+    }
+    .info {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .btn {
+      background: #005AA7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #003d73;
+    }
+  </style>
+</head>
+<body>
 
+  <div class="card">
+    <h2>Ditt ID (Demo)</h2>
+
+    <input type="file" accept="image/*" onchange="previewImage(event)" /><br />
+    <input type="text" id="nameInput" placeholder="Ditt namn" /><br />
+    <input type="number" id="birthYearInput" placeholder="Födelseår (t.ex. 2000)" /><br />
+
+    <button class="btn" onclick="generateID()">Visa ID</button>
+
+    <div class="info" id="idInfo" style="display:none;">
+      <img id="preview" src="" alt="Profilbild" />
+      <p><strong id="nameDisplay"></strong></p>
+      <p>Födelseår: <span id="birthYearDisplay"></span></p>
+      <p>Ålder: <span id="ageDisplay"></span> år</p>
+    </div>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('preview').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function generateID() {
+      const name = document.getElementById('nameInput').value;
+      const birthYear = parseInt(document.getElementById('birthYearInput').value);
+      const currentYear = new Date().getFullYear();
+
+      if (!name || !birthYear || isNaN(birthYear)) {
+        alert("Fyll i alla fält korrekt.");
+        return;
+      }
+
+      const age = currentYear - birthYear;
+
+      document.getElementById('nameDisplay').textContent = name;
+      document.getElementById('birthYearDisplay').textContent = birthYear;
+      document.getElementById('ageDisplay').textContent = age;
+      document.getElementById('idInfo').style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
